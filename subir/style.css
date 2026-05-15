@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+
+.imagenes {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+img {
+    width: 100px; /* Ajusta el tamaño de todas las imágenes */
+    margin: 0 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    transition: transform .2s; /* Efecto suave al pasar el mouse */
+}
+
+img:hover {
+    transform: scale(1.1); /* Efecto de zoom */
+}
+
+h1, h2 {
+    color: #333;
+}
+input[type="button"] {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color .3s;
+}
+
+input[type="button"]:hover {
+    background-color: #45a049;
+}
