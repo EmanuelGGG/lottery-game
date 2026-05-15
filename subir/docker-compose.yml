@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-apache
+    container_name: loteria_apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html/
+    restart: unless-stopped
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html

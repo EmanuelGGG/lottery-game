@@ -8,7 +8,7 @@ class Controller {
 
     public function __construct() {
         $this->model = new Model();
-        $this->puntaje = isset($_SESSION['puntaje']) ? $_SESSION['puntaje'] : 1000;
+        $this->puntaje = isset($_SESSION['puntaje']) ? $_SESSION['puntaje'] : 2000;
     }
 
     public function jugar() {
@@ -36,7 +36,7 @@ class Controller {
 
     public function guardar() {
         $this->model->guardarPuntaje($this->puntaje);
-        $_SESSION['puntaje'] = 1000; // Reiniciar puntaje
+        $_SESSION['puntaje'] = 2000; // Reiniciar puntaje
     }
 }
 ?>
