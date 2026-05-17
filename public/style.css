@@ -1,0 +1,513 @@
+/* ============================================================
+   Casino Royale - UI basada en image.png
+   Estilo: Dark blue neon casino moderno
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0c0804;
+    background-image: 
+        linear-gradient(45deg, #150e07 25%, transparent 25%, transparent 75%, #150e07 75%),
+        linear-gradient(45deg, #150e07 25%, transparent 25%, transparent 75%, #150e07 75%);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    color: #f0ebd9;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.neon-bg {
+    display: none; /* Quitamos el fondo anterior */
+}
+
+.game-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px 12px 32px;
+    position: relative;
+}
+
+/* === HEADER === */
+.casino-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.casino-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    color: #ffffff;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 4px;
+    line-height: 1.05;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.casino-title i {
+    color: #FFD700;
+    font-size: 0.8em;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.casino-subtitle {
+    margin-top: 6px;
+    color: #FFD700;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.game-container {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+}
+
+/* === SCORE PANEL === */
+.score-panel {
+    background: #171009;
+    border: 2px solid #FFD700;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 18px;
+    box-shadow:
+        0 0 15px rgba(255, 215, 0, 0.2),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.score-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #FFD700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.score-header i {
+    color: #FFD700;
+    font-size: 1rem;
+}
+
+.score-value {
+    display: block;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.score-value.pop {
+    animation: scorePop 0.45s ease-out;
+}
+
+@keyframes scorePop {
+    0% {
+        transform: scale(0.75);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* === SLOT MACHINE FRAME === */
+.slot-machine-frame {
+    position: relative;
+    padding: 0 16px;
+    margin-bottom: 16px;
+}
+
+.cylinder-left,
+.cylinder-right {
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    width: 12px;
+    z-index: 3;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, #FFD700 0%, #FFD700 40%, #FF0000 40%, #FF0000 60%, #FFD700 60%, #FFD700 100%);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.cylinder-left {
+    left: 4px;
+}
+
+.cylinder-right {
+    right: 4px;
+}
+
+.reels-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    background: #110a05;
+    border: 3px solid #FFD700;
+    border-radius: 12px;
+    padding: 20px 15px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 0 20px rgba(255, 215, 0, 0.2),
+        inset 0 0 30px rgba(0, 0, 0, 0.7);
+}
+
+.reel-frame {
+    background: #000000;
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.reel {
+    width: clamp(80px, 20vw, 100px);
+    height: clamp(80px, 20vw, 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0d0702;
+    position: relative;
+    overflow: hidden;
+}
+
+.reel-strip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reel-symbol {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.15s ease;
+}
+
+.reel-symbol.blur {
+    filter: blur(3px);
+    transform: scaleY(1.05);
+}
+
+.win-line {
+    position: absolute;
+    left: 2%;
+    right: 2%;
+    top: 50%;
+    height: 2px;
+    background: #FF0000;
+    transform: translateY(-50%);
+    z-index: 4;
+    box-shadow: 0 0 8px #FF0000;
+    opacity: 0.9;
+}
+
+/* === CONTROLS === */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+}
+
+.btn {
+    padding: 14px 32px;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    position: relative;
+}
+
+.btn:focus-visible {
+    outline: 3px solid rgba(255, 210, 110, 0.6);
+    outline-offset: 3px;
+}
+
+.btn-spin {
+    background: #FFD700;
+    border: 1px solid #FFC107;
+    color: #000000;
+    font-weight: 900;
+    box-shadow: 0 5px 0 #b8860b, 0 5px 15px rgba(255, 215, 0, 0.3);
+    font-size: clamp(1rem, 3vw, 1.1rem);
+}
+
+.btn-spin:hover {
+    background: #FFC107;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 0 #b8860b, 0 8px 20px rgba(255, 215, 0, 0.4);
+}
+
+.btn-spin:disabled {
+    background: #555555;
+    border-color: #444444;
+    color: #888888;
+    box-shadow: 0 2px 0 #333333;
+    transform: translateY(2px);
+    cursor: not-allowed;
+}
+
+.btn-save {
+    background: #1a1005;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: #ffffff;
+    box-shadow: 0 5px 0 #000000;
+}
+
+.btn-save:hover {
+    background: #251808;
+    transform: translateY(-1px);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+/* Eliminados duplicados azules para aplicar el tema dorado correctamente */
+
+/* Boton REINTENTAR - verde */
+.btn-reset {
+    background: linear-gradient(180deg, #00aa44, #007733);
+    border: 2px solid #00dd66;
+    color: #aaffcc;
+    box-shadow: 0 4px 0 #004422;
+}
+
+.btn-reset:hover {
+    background: linear-gradient(180deg, #00bb55, #008844);
+    transform: translateY(-1px);
+}
+
+/* === RESULT === */
+.result-container {
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+.result-message {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.result-message i {
+    margin: 0 5px;
+}
+
+.ganaste {
+    color: #00ffaa;
+    background: rgba(0, 255, 170, 0.08);
+    border: 1px solid rgba(0, 255, 170, 0.3);
+    animation: winGlow 0.8s ease-in-out 3;
+}
+
+@keyframes winGlow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 5px rgba(0, 255, 170, 0.5);
+    }
+
+    50% {
+        text-shadow: 0 0 20px rgba(0, 255, 170, 0.8), 0 0 40px rgba(0, 255, 170, 0.3);
+    }
+}
+
+.perdiste {
+    color: #ff6644;
+    background: rgba(255, 80, 50, 0.06);
+    border: 1px solid rgba(255, 80, 50, 0.2);
+    animation: loseShake 0.4s ease;
+}
+
+@keyframes loseShake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.game-over {
+    color: #ff3333;
+    background: rgba(255, 0, 0, 0.08);
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    animation: goFlash 0.6s ease-in-out infinite;
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+    letter-spacing: 3px;
+}
+
+@keyframes goFlash {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* === PAYTABLE === */
+.paytable {
+    margin-top: 20px;
+    background: #171009;
+    border: 2px solid #FFD700;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+}
+
+.paytable-title {
+    background: #251808;
+    color: #FFD700;
+    font-weight: 700;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    letter-spacing: 2px;
+    padding: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #FFD700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.paytable-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.pay-combo {
+    color: #ffffff;
+    font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+    font-weight: 600;
+}
+
+.pay-win {
+    color: #00E676;
+    font-weight: 700;
+    font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+    text-shadow: 0 0 5px rgba(0, 230, 118, 0.3);
+}
+
+.pay-loss {
+    color: #FF1744;
+    font-weight: 700;
+    font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+    text-shadow: 0 0 5px rgba(255, 23, 68, 0.3);
+}
+
+/* === FOOTER === */
+.game-footer {
+    text-align: center;
+    padding: 12px;
+    color: #334455;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+    .game-wrapper {
+        padding: 10px 5px;
+    }
+
+    .reel {
+        width: 75px;
+        height: 75px;
+    }
+
+    .cylinder-left,
+    .cylinder-right {
+        width: 12px;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 220px;
+        justify-content: center;
+    }
+
+    .score-panel {
+        padding: 8px 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
