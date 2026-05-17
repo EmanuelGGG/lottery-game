@@ -1,5 +1,5 @@
 <?php
-require_once 'controller.php';
+require_once __DIR__ . '/controlador/controller.php';
 $controller = new Controller();
 
 if (isset($_GET['action'])) {
@@ -10,5 +10,5 @@ if (isset($_GET['action'])) {
     }
 }
 
-require_once 'view.php';
+require_once __DIR__ . '/view.php';
 ?>

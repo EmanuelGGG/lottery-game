@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'model.php';
+require_once __DIR__ . '/../modelo/model.php';
 
 class Controller {
     private $model;
