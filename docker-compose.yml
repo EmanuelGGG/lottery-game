@@ -8,6 +8,31 @@ services:
       - "8080:80"
     volumes:
       - ./:/var/www/html/
-    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
-      - APACHE_DOCUMENT_ROOT=/var/www/html
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_NAME=juego
+    restart: unless-stopped
+
+  db:
+    image: mariadb:10.4
+    container_name: loteria_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: juego
+    volumes:
+      - ./database/juego.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  db_data:

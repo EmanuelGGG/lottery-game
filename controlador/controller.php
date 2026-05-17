@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../modelo/model.php';
 
 class Controller {
@@ -36,7 +35,8 @@ class Controller {
 
     public function guardar() {
         $this->model->guardarPuntaje($this->puntaje);
-        $_SESSION['puntaje'] = 2000; // Reiniciar puntaje
+        $_SESSION['puntaje'] = 2000;
+        $_SESSION['resultado'] = '¡A jugar!';
+        $_SESSION['numeros'] = [1, 1, 1];
     }
 }
-?>

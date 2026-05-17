@@ -3,7 +3,12 @@ class Model {
     private $conn;
 
     public function __construct() {
-        $this->conn = new mysqli('localhost', 'root', '', 'juego');
+        $host = getenv('DB_HOST') ?: 'localhost';
+        $user = getenv('DB_USER') ?: 'root';
+        $pass = getenv('DB_PASS') ?: '';
+        $name = getenv('DB_NAME') ?: 'juego';
+
+        $this->conn = new mysqli($host, $user, $pass, $name);
         if ($this->conn->connect_error) {
             die("Conexión fallida: " . $this->conn->connect_error);
         }
@@ -16,6 +21,3 @@ class Model {
         $stmt->close();
     }
 }
-?>
-
-
