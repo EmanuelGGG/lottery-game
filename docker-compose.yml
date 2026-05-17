@@ -1,38 +1,84 @@
+# ============================================================
+# docker-compose.yml - Configuración de Contenedores Docker
+#
+# Este archivo define 2 servicios contenerizados:
+# 1. app: Servidor web Apache con PHP 8.2
+# 2. db: Base de datos MariaDB 10.4
+#
+# Para ejecutar:
+#   docker-compose up -d          # Inicia ambos servicios en background
+#   docker-compose ps             # Verifica el estado de los contenedores
+#   docker-compose logs -f        # Sigue los logs en tiempo real
+#   docker-compose down           # Detiene y elimina los contenedores
+#   docker-compose down -v        # Detiene y elimina también los volúmenes
+#
+# Acceso:
+#   Aplicación web: http://localhost:8080
+#   Base de datos:  accesible solo desde la red interna de Docker
+#
+# @package LotteryGame
+# @version 1.1
+# ============================================================
+
 version: '3.8'
 
 services:
+  # -----------------------------------------------------------
+  # SERVICIO app: Servidor Web Apache + PHP 8.2
+  # -----------------------------------------------------------
+  # Usa la imagen oficial de PHP con Apache preinstalado.
+  # Sirve los archivos PHP del proyecto directamente desde el
+  # directorio local mediante un volumen montado.
   app:
-    image: php:8.2-apache
-    container_name: loteria_apache
+    image: php:8.2-apache          # Imagen oficial PHP 8.2 con Apache integrado
+    container_name: loteria_apache  # Nombre legible del contenedor
     ports:
-      - "8080:80"
+      - "8080:80"                   # Mapea puerto 8080 del host al puerto 80 del contenedor
     volumes:
+      # Monta el directorio actual del proyecto en el DocumentRoot de Apache
+      # Cualquier cambio en los archivos locales se refleja instantáneamente
       - ./:/var/www/html/
     depends_on:
+      # Espera a que el servicio 'db' esté saludable antes de iniciar
       db:
         condition: service_healthy
     environment:
+      # Variables de entorno que el modelo (model.php) lee para conectarse a la BD
+      # DB_HOST=db usa el nombre del servicio como hostname (DNS interno de Docker)
       - DB_HOST=db
       - DB_USER=root
       - DB_PASS=root
       - DB_NAME=juego
-    restart: unless-stopped
+    restart: unless-stopped         # Reinicia automáticamente si falla (excepto si se detiene manualmente)
 
+  # -----------------------------------------------------------
+  # SERVICIO db: Base de Datos MariaDB 10.4
+  # -----------------------------------------------------------
+  # Proporciona el servidor de base de datos MySQL compatible.
+  # Importa automáticamente el schema desde juego.sql al primer inicio.
   db:
-    image: mariadb:10.4
-    container_name: loteria_db
+    image: mariadb:10.4             # Imagen oficial de MariaDB (compatible con MySQL)
+    container_name: loteria_db      # Nombre legible del contenedor
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: juego
+      # Credenciales de root y base de datos inicial
+      MYSQL_ROOT_PASSWORD: root     # Contraseña del usuario root
+      MYSQL_DATABASE: juego         # Nombre de la base de datos a crear automáticamente
     volumes:
+      # Monta el archivo SQL en el directorio de inicialización de MariaDB
+      # Los scripts en /docker-entrypoint-initdb.d/ se ejecutan solo la primera vez
       - ./database/juego.sql:/docker-entrypoint-initdb.d/init.sql
+      # Volumen persistente para los datos de la base de datos
+      # Los datos sobreviven a reinicios y recreaciones del contenedor
       - db_data:/var/lib/mysql
     healthcheck:
+      # Verifica que MariaDB esté respondiendo consultas
+      # docker-compose espera a que este check pase antes de iniciar 'app'
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-    restart: unless-stopped
+      interval: 5s                   # Verifica cada 5 segundos
+      timeout: 3s                    # Timeout de 3 segundos por verificación
+      retries: 5                     # Considera "no saludable" tras 5 intentos fallidos
+    restart: unless-stopped         # Reinicia automáticamente si falla
 
+# Volúmenes nombrados: persisten los datos fuera del ciclo de vida del contenedor
 volumes:
-  db_data:
+  db_data:                          # Almacena los archivos de datos de MariaDB
